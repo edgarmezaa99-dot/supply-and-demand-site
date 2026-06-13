@@ -2,9 +2,9 @@ const express = require('express');
 const path = require('path');
 const app = express();
 
-const SHOPIFY_STORE = 'supplyanddemandllc.myshopify.com';
-const CLIENT_ID = '0ce56e4b1883963dad4a6ec024439312';
-const CLIENT_SECRET = 'SHOPIFY_SECRET_REMOVED';
+const SHOPIFY_STORE = process.env.SHOPIFY_STORE || 'supplyanddemandllc.myshopify.com';
+const CLIENT_ID = process.env.SHOPIFY_CLIENT_ID || '0ce56e4b1883963dad4a6ec024439312';
+const CLIENT_SECRET = process.env.SHOPIFY_CLIENT_SECRET;
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname)));
