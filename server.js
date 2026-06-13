@@ -50,5 +50,5 @@ app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
 app.get('/product', (req, res) => res.sendFile(path.join(__dirname, 'product.html')));
 app.get('/category', (req, res) => res.sendFile(path.join(__dirname, 'category.html')));
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => console.log(`Supply & Demand site running: http://localhost:${PORT}`));
