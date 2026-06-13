@@ -5,6 +5,17 @@ const app = express();
 const SHOPIFY_STORE = process.env.SHOPIFY_STORE || 'supplyanddemandllc.myshopify.com';
 const CLIENT_ID = process.env.SHOPIFY_CLIENT_ID || '0ce56e4b1883963dad4a6ec024439312';
 const CLIENT_SECRET = process.env.SHOPIFY_CLIENT_SECRET;
+const TG_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+const TG_CHAT = process.env.TELEGRAM_ALLOWED_USER_ID;
+
+async function tgSend(text) {
+  if (!TG_TOKEN || !TG_CHAT) return;
+  await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chat_id: TG_CHAT, text, parse_mode: 'HTML' })
+  }).catch(() => {});
+}
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname)));
@@ -41,7 +52,7 @@ app.post('/api/checkout', (req, res) => {
 app.post('/api/quote', async (req, res) => {
   const { name, email, phone, product, width, height, finish, notes } = req.body;
   console.log('[Quote]', { name, email, phone, product, width, height, finish, notes });
-  // TODO: forward to Telegram / email
+  await tgSend(`🪟 <b>New Quote Request</b>\n👤 ${name}\n📞 ${phone}\n📧 ${email}\n📦 ${product}${finish ? ' — ' + finish : ''}${width ? '\n📐 ' + width + (height ? ' x ' + height : '') : ''}${notes ? '\n📝 ' + notes : ''}`);
   res.json({ ok: true });
 });
 
