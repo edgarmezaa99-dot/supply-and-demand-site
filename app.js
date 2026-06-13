@@ -1,3 +1,23 @@
+// Make every product card navigate to its dedicated product page
+document.querySelectorAll('.product-card').forEach(card => {
+  card.style.cursor = 'pointer';
+  card.addEventListener('click', e => {
+    if (e.target.closest('a')) return;
+    if (card.id) window.location.href = `product?id=${card.id}`;
+  });
+});
+
+// Image gallery cycle (tap/click to cycle through product photos)
+function cycleImg(wrap) {
+  const img = wrap.querySelector('img');
+  const imgs = JSON.parse(img.dataset.imgs);
+  const idx = (parseInt(img.dataset.idx) + 1) % imgs.length;
+  img.dataset.idx = idx;
+  img.src = imgs[idx];
+  const dots = wrap.querySelectorAll('span');
+  dots.forEach((d, i) => d.style.opacity = i === idx ? '1' : '.45');
+}
+
 // Mobile nav
 const burger = document.getElementById('burger');
 const mobileNav = document.getElementById('mobileNav');
@@ -36,11 +56,11 @@ function formatPrice(min, max) {
 
 function productIcon(product) {
   const t = (product.title + ' ' + product.type).toLowerCase();
-  if (t.includes('shower')) return '🚿';
-  if (t.includes('closet') || t.includes('bifold')) return '🚪';
-  if (t.includes('mirror')) return '🪞';
-  if (t.includes('patio') || t.includes('aluminum')) return '🪟';
-  return '🪟';
+  if (t.includes('shower')) return 'images/icon-shower.svg';
+  if (t.includes('closet') || t.includes('bifold')) return 'images/icon-door.svg';
+  if (t.includes('mirror')) return 'images/icon-mirror.svg';
+  if (t.includes('patio') || t.includes('aluminum')) return 'images/icon-window.svg';
+  return 'images/icon-window.svg';
 }
 
 function productBg(product) {
@@ -62,7 +82,7 @@ function buildCard(product) {
   if (product.image) {
     imgHtml = `<div class="product-img-wrap"><img src="${product.image}" alt="${product.title}" loading="lazy" /></div>`;
   } else {
-    imgHtml = `<div class="product-img-wrap" style="background:${productBg(product)}"><div class="product-img-placeholder">${productIcon(product)}</div></div>`;
+    imgHtml = `<div class="product-img-wrap" style="background:${productBg(product)}"><img src="${productIcon(product)}" alt="" class="product-img-placeholder"></div>`;
   }
 
   let variantsHtml = '';
@@ -96,30 +116,13 @@ function buildCard(product) {
   return card;
 }
 
-// Load from mission-control server
-async function loadProducts() {
+function loadProducts() {
   const grid = document.getElementById('productGrid');
   const loading = document.getElementById('loadingState');
   const fallback = document.getElementById('fallbackGrid');
-
-  try {
-    const res = await fetch('http://localhost:3000/store/products', { signal: AbortSignal.timeout(5000) });
-    if (!res.ok) throw new Error('Bad response');
-    const data = await res.json();
-    const products = data.products || [];
-
-    loading.remove();
-    if (products.length === 0) throw new Error('No products');
-
-    products.forEach(p => grid.appendChild(buildCard(p)));
-    setupFilters(products);
-  } catch (e) {
-    // Shopify unavailable — show static fallback products
-    loading.remove();
-    grid.style.display = 'none';
-    fallback.style.display = 'grid';
-    setupFallbackFilters();
-  }
+  if (loading) loading.remove();
+  if (grid) grid.style.display = 'none';
+  if (fallback) fallback.style.display = 'grid';
 }
 
 function setupFilters(products) {
@@ -154,14 +157,38 @@ function setupFallbackFilters() {
 loadProducts();
 
 // Contact form
+const DASHBOARD_URL = 'http://localhost:3000';
+
 document.getElementById('contactForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const btn = document.getElementById('btnText');
   btn.textContent = 'Sending...';
-  await new Promise(r => setTimeout(r, 1000));
-  btn.textContent = 'Request Sent!';
+  const data = Object.fromEntries(new FormData(e.target));
+  try {
+    await fetch(DASHBOARD_URL + '/api/contact', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...data, source: 'website' })
+    });
+  } catch(_) {}
+  btn.textContent = 'Request Sent! ✓';
   e.target.reset();
   setTimeout(() => btn.textContent = 'Send Request', 3000);
+});
+
+document.getElementById('consultForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('consultBtnText');
+  btn.textContent = 'Submitting...';
+  const data = Object.fromEntries(new FormData(e.target));
+  try {
+    await fetch(DASHBOARD_URL + '/api/consultations', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...data, payment: 'unpaid' })
+    });
+  } catch(_) {}
+  btn.textContent = 'Request Received! We\'ll call to confirm ✓';
+  e.target.reset();
+  setTimeout(() => btn.textContent = 'Request Consultation — $45', 4000);
 });
 
 // ─── QUOTE MODAL ─────────────────────────────────────────────

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Supply & Demand LLC — Pomona, CA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <span>📍 Pomona, CA · Serving Southern California</span>
+      <span>·</span>
+      <span>Contractors Welcome · Fast Turnaround</span>
+      <span>·</span>
+      <a href="tel:9099295575">(909) 929-5575</a>
+      <span>·</span>
+      <a href="https://www.instagram.com/supplyanddemandllc/" target="_blank">@supplyanddemandllc</a>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="header" id="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <img src="logo.png" alt="Supply and Demand Glass & Doors" class="logo-img" />
+      </a>
+      <nav class="main-nav">
+        <div class="nav-dropdown">
+          <a href="category?cat=closet" class="nav-dropdown-toggle">Closet Doors ▾</a>
+          <div class="nav-dropdown-menu">
+            <a href="product?id=closet">Mirrored Closet Doors</a>
+            <a href="product?id=closet-white-glass">White Glass Closet Doors</a>
+            <a href="product?id=closet-frosted">Frosted Glass Closet Doors</a>
+            <a href="product?id=closet-frameless">Frameless Closet Doors</a>
+            <a href="product?id=closet-economy">Economy Closet Doors</a>
+            <a href="product?id=closet-wood">Wood Closet Doors</a>
+            <a href="product?id=closet-bifold">Bifold Closet Doors</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="category?cat=shower" class="nav-dropdown-toggle">Shower Doors ▾</a>
+          <div class="nav-dropdown-menu">
+            <a href="product?id=shower">Frameless Shower Door</a>
+            <a href="product?id=shower-door-in-panel">Door and Panel</a>
+            <a href="product?id=shower-barn">Walk-In Barn Door Single Slider</a>
+            <a href="product?id=shower-barn-tub">Bathtub Barn Door Single Slider</a>
+            <a href="product?id=shower-double-walkin">Walk-In Double Slider</a>
+            <a href="product?id=shower-double-tub">Bathtub Double Slider</a>
+            <a href="product?id=shower-bypass">Walk-In Framed Bypass</a>
+            <a href="product?id=shower-bypass-tub">Bathtub Framed Bypass</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="category?cat=glass" class="nav-dropdown-toggle">Glass ▾</a>
+          <div class="nav-dropdown-menu">
+            <a href="product?id=glass">Tempered Glass</a>
+            <a href="product?id=glass-tabletops">Table Tops</a>
+            <a href="product?id=glass-laminated">Laminated Glass</a>
+            <a href="product?id=glass-colored">Colored Glass</a>
+            <a href="product?id=glass-replacement">Replacement Glass</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="category?cat=aluminum" class="nav-dropdown-toggle">Aluminum Windows ▾</a>
+          <div class="nav-dropdown-menu">
+            <a href="product?id=aluminum">Single Slider Window</a>
+            <a href="product?id=aluminum-bifold-kitchen">Bi-Fold Kitchen Window</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="category?cat=bifold" class="nav-dropdown-toggle">Aluminum Bifold Doors ▾</a>
+          <div class="nav-dropdown-menu">
+            <a href="product?id=bifold">Aluminum Bifold Door</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="category?cat=mirror" class="nav-dropdown-toggle">Mirrors ▾</a>
+          <div class="nav-dropdown-menu">
+            <a href="product?id=mirrors">Vanity Mirror</a>
+            <a href="product?id=mirror-vanity-plus">Vanity Mirror Plus</a>
+            <a href="product?id=mirror-gym">Gym Mirrors</a>
+            <a href="product?id=mirror-custom">Custom Mirrors</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="category?cat=interior" class="nav-dropdown-toggle">Interior Doors ▾</a>
+          <div class="nav-dropdown-menu">
+            <a href="product?id=interior">Shaker Panels</a>
+          </div>
+        </div>
+        <a href="index.html#contact" class="nav-quote">Get a Quote</a>
+      </nav>
+      <button class="burger" id="burger">&#9776;</button>
+    </div>
+    <div class="mobile-nav" id="mobileNav">
+      <a href="category?cat=closet">Closet Doors</a>
+      <a href="category?cat=shower">Shower Doors</a>
+      <a href="category?cat=glass">Glass</a>
+      <a href="category?cat=aluminum">Aluminum Windows</a>
+      <a href="category?cat=bifold">Aluminum Bifold Doors</a>
+      <a href="category?cat=mirror">Mirrors</a>
+      <a href="category?cat=interior">Interior Doors</a>
+      <a href="index.html#contact">Get a Quote</a>
+    </div>
+  </header>
+
+  <!-- CATEGORY PAGE -->
+  <section style="padding:2.5rem 0 4rem">
+    <div class="container">
+      <div id="catHeader" style="margin-bottom:2rem">
+        <h1 id="catTitle" style="font-size:1.75rem;font-weight:700;margin-bottom:.4rem"></h1>
+        <p id="catSubtitle" style="color:var(--gray-400);font-size:.95rem"></p>
+      </div>
+      <div class="product-grid" id="catGrid"></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <a href="index.html"><img src="logo-full.png" alt="Supply and Demand Glass & Doors" style="height:56px;width:auto;display:block;margin-bottom:0.75rem;filter:brightness(0) invert(1)"></a>
+          <p style="margin:0;color:#aaa;font-size:.85rem">Glass &amp; Doors · Pomona, CA<br />Serving Southern California</p>
+        </div>
+        <div>
+          <strong>Products</strong>
+          <ul>
+            <li><a href="category?cat=closet">Closet Doors</a></li>
+            <li><a href="category?cat=shower">Shower Doors</a></li>
+            <li><a href="category?cat=glass">Glass</a></li>
+            <li><a href="category?cat=aluminum">Aluminum Windows</a></li>
+            <li><a href="category?cat=bifold">Aluminum Bifold Doors</a></li>
+            <li><a href="category?cat=mirror">Mirrors</a></li>
+            <li><a href="category?cat=interior">Interior Doors</a></li>
+          </ul>
+        </div>
+        <div>
+          <strong>Contact</strong>
+          <ul>
+            <li><a href="tel:9099295575">(909) 929-5575</a></li>
+            <li><a href="mailto:supplyanddemandsocal@gmail.com">supplyanddemandsocal@gmail.com</a></li>
+            <li>179 San Lorenzo St<br />Pomona, CA 91766</li>
+            <li><a href="https://www.instagram.com/supplyanddemandllc/" target="_blank">@supplyanddemandllc</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Supply &amp; Demand LLC · All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="products.js"></script>
+  <script>
+    const CAT_LABELS = {
+      closet:   { title: 'Closet Doors',          subtitle: 'Sliding, mirrored & panel systems for every bedroom.' },
+      shower:   { title: 'Shower Doors',           subtitle: 'Frameless, semi-frameless & framed options for any bathroom.' },
+      glass:    { title: 'Glass',                  subtitle: 'Custom-cut tempered, laminated, colored & replacement glass.' },
+      aluminum: { title: 'Aluminum Windows',       subtitle: 'Single slider, dual pane & bi-fold window units.' },
+      bifold:   { title: 'Aluminum Bifold Doors',  subtitle: 'Durable aluminum bifold doors for closets & patios.' },
+      mirror:   { title: 'Mirrors',                subtitle: 'Vanity, wall & custom-cut mirrors for any space.' },
+      interior: { title: 'Interior Doors',         subtitle: 'Panel, flush & hollow-core doors for every room.' },
+    };
+
+    const CAT_PRODUCT_MAP = {
+      closet:   ['closet','closet-white-glass','closet-frosted','closet-frameless','closet-economy','closet-wood','closet-bifold'],
+      shower:   ['shower','shower-door-in-panel','shower-barn','shower-barn-tub','shower-double-walkin','shower-double-tub','shower-bypass','shower-bypass-tub'],
+      glass:    ['glass','glass-tabletops','glass-laminated','glass-colored','glass-replacement'],
+      aluminum: ['aluminum','aluminum-bifold-kitchen'],
+      bifold:   ['bifold'],
+      mirror:   ['mirrors','mirror-vanity-plus','mirror-gym','mirror-custom'],
+      interior: ['interior'],
+    };
+
+    function getSrc(img) { return typeof img === 'string' ? img : img.src; }
+
+    function buildCatCard(id, product) {
+      const card = document.createElement('a');
+      card.className = 'product-card';
+      card.href = `product?id=${id}`;
+      card.style.textDecoration = 'none';
+      card.style.color = 'inherit';
+
+      let imgHtml = '';
+      if (product.images && product.images.length) {
+        const src = getSrc(product.images[0]);
+        imgHtml = `<div class="product-img-wrap"><img src="${src}" alt="${product.name}" style="width:100%;height:100%;object-fit:cover" loading="lazy"></div>`;
+      } else {
+        imgHtml = `<div class="product-img-wrap" style="background:#ebebfa;display:flex;align-items:center;justify-content:center"><img src="images/icon-door.svg" alt="" class="product-img-placeholder"></div>`;
+      }
+
+      card.innerHTML = `
+        ${imgHtml}
+        <div class="product-body">
+          <div class="product-tag">${product.tag || ''}</div>
+          <h3>${product.name}</h3>
+          <p class="product-desc">${product.desc || ''}</p>
+          <div class="product-footer"><span class="price">Call for pricing</span><span class="btn-sm">View Details →</span></div>
+        </div>`;
+      return card;
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const cat = params.get('cat') || 'closet';
+    const label = CAT_LABELS[cat] || { title: 'Products', subtitle: '' };
+    document.title = `${label.title} — Supply & Demand LLC`;
+    document.getElementById('catTitle').textContent = label.title;
+    document.getElementById('catSubtitle').textContent = label.subtitle;
+
+    const grid = document.getElementById('catGrid');
+    const ids = CAT_PRODUCT_MAP[cat] || [];
+    ids.forEach(id => {
+      const p = PRODUCTS[id];
+      if (p) grid.appendChild(buildCatCard(id, p));
+    });
+
+    // Mobile nav
+    const burger = document.getElementById('burger');
+    const mobileNav = document.getElementById('mobileNav');
+    burger.addEventListener('click', () => mobileNav.classList.toggle('open'));
+    mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileNav.classList.remove('open')));
+
+    // Sticky header
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.style.boxShadow = window.scrollY > 10 ? '0 2px 12px rgba(0,0,0,0.1)' : '';
+    });
+  </script>
+</body>
+</html>

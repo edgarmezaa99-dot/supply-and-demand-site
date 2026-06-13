@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Supply &amp; Demand LLC — Product</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── PRODUCT PAGE ─────────────────────────────────────────── */
+    .product-page { max-width: 1100px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+
+    .breadcrumb { font-size: .8rem; color: var(--gray-400); margin-bottom: 1.5rem; }
+    .breadcrumb a { color: var(--blue); text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+    .breadcrumb span { margin: 0 .4rem; }
+
+    /* ── HERO SPLIT ───────────────────────────────────────────── */
+    .product-hero { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start; margin-bottom: 3rem; }
+    @media(max-width:700px){ .product-hero { grid-template-columns: 1fr; } }
+
+    .product-hero-img-wrap { position: relative; border-radius: 12px; overflow: hidden; background: #f0f0f0; aspect-ratio: 4/3; cursor: pointer; }
+    .product-hero-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .img-counter { position: absolute; bottom: 10px; right: 12px; background: rgba(0,0,0,.55); color: #fff; font-size: .75rem; padding: 3px 9px; border-radius: 20px; }
+
+    /* ── HERO THUMBNAILS ─────────────────────────────────────── */
+    .hero-thumbs { display: flex; gap: .4rem; overflow-x: auto; padding: .5rem 0 .25rem; scrollbar-width: thin; scrollbar-color: #ccc transparent; }
+    .hero-thumbs::-webkit-scrollbar { height: 4px; }
+    .hero-thumbs::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+    .hthumb { flex: 0 0 72px; height: 54px; border-radius: 6px; overflow: hidden; cursor: pointer; border: 2.5px solid transparent; transition: border-color .15s; }
+    .hthumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hthumb.active { border-color: var(--navy); }
+
+    .product-hero-info { display: flex; flex-direction: column; gap: 1rem; }
+    .product-hero-tag { font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--blue); }
+    .product-hero-name { font-size: 2rem; font-weight: 800; color: var(--navy); line-height: 1.2; margin: 0; }
+    .product-hero-desc { font-size: .95rem; color: var(--gray-400); line-height: 1.7; }
+
+    .product-hero-finishes h4,
+    .product-hero-sizes h4 { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--gray-400); margin: 0 0 .5rem; }
+    .finish-chips, .size-chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .fchip { padding: .35rem .85rem; border-radius: 20px; border: 1.5px solid #ddd; font-size: .82rem; cursor: pointer; background: #fff; transition: all .15s; user-select: none; }
+    .fchip:hover { border-color: var(--navy); }
+    .fchip.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+    .schip { padding: .3rem .7rem; border-radius: 8px; border: 1.5px solid #ddd; font-size: .8rem; background: #f7f7f7; color: var(--gray-900); cursor: pointer; transition: all .15s; }
+    .schip:hover { border-color: var(--navy); }
+    .schip.selected { background: var(--navy); color: #fff; border-color: var(--navy); }
+    .custom-size-input { padding: .3rem .7rem; border-radius: 8px; border: 1.5px solid #ddd; font-size: .8rem; width: 80px; font-family: inherit; color: var(--gray-900); outline: none; }
+    .custom-size-input:focus { border-color: var(--navy); }
+    .custom-size-input::placeholder { color: #bbb; }
+
+    .product-cta { display: flex; gap: .75rem; flex-wrap: wrap; margin-top: .5rem; }
+    .btn-primary { background: var(--navy); color: #fff; border: none; padding: .75rem 1.5rem; border-radius: 8px; font-size: .9rem; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; }
+    .btn-primary:hover { background: #0f2d5e; }
+    .btn-outline { background: #fff; color: var(--navy); border: 2px solid var(--navy); padding: .75rem 1.5rem; border-radius: 8px; font-size: .9rem; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; }
+    .btn-outline:hover { background: #f5f7ff; }
+
+    /* ── GALLERY GRID ─────────────────────────────────────────── */
+    .gallery-section { margin-bottom: 3rem; }
+    .gallery-section h2 { font-size: 1.25rem; font-weight: 800; color: var(--navy); margin-bottom: 1rem; }
+    .gallery-filter { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: .75rem; }
+    .gallery-thumb { border-radius: 10px; overflow: hidden; aspect-ratio: 4/3; cursor: pointer; background: #f0f0f0; position: relative; }
+    .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .2s; }
+    .gallery-thumb:hover img { transform: scale(1.04); }
+    .gallery-empty { color: var(--gray-400); font-size: .9rem; padding: 1rem 0; }
+
+    /* ── LIGHTBOX ─────────────────────────────────────────────── */
+    .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.92); z-index: 9999; align-items: center; justify-content: center; }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: 92vw; max-height: 88vh; object-fit: contain; border-radius: 8px; }
+    .lb-close { position: absolute; top: 16px; right: 20px; color: #fff; font-size: 2rem; cursor: pointer; line-height: 1; }
+    .lb-prev, .lb-next { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,.15); color: #fff; border: none; font-size: 1.8rem; padding: .5rem 1rem; border-radius: 8px; cursor: pointer; }
+    .lb-prev { left: 12px; }
+    .lb-next { right: 12px; }
+
+    /* ── DETAILS SECTION ──────────────────────────────────────── */
+    .details-section { background: #fff; border: 1px solid #e8e8e8; border-radius: 14px; padding: 2rem; margin-bottom: 3rem; }
+    .details-section h2 { font-size: 1.25rem; font-weight: 800; color: var(--navy); margin-bottom: 1.25rem; }
+    .details-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; }
+    .detail-item label { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--gray-400); display: block; margin-bottom: .35rem; }
+    .detail-item p { font-size: .9rem; color: var(--gray-900); margin: 0; line-height: 1.5; }
+
+    /* ── QUOTE FORM ───────────────────────────────────────────── */
+    .quote-section { background: var(--navy); border-radius: 16px; padding: 2.5rem; margin-bottom: 3rem; color: #fff; }
+    .quote-section h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: .5rem; }
+    .quote-section p { font-size: .9rem; opacity: .75; margin-bottom: 1.5rem; }
+    .quote-form { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media(max-width:600px){ .quote-form { grid-template-columns: 1fr; } }
+    .quote-form .full { grid-column: 1 / -1; }
+    .quote-form input, .quote-form select, .quote-form textarea {
+      width: 100%; padding: .75rem 1rem; border-radius: 8px; border: none;
+      font-size: .9rem; font-family: inherit; box-sizing: border-box;
+    }
+    .quote-form textarea { min-height: 90px; resize: vertical; }
+    .quote-form label { display: block; font-size: .78rem; font-weight: 600; margin-bottom: .3rem; opacity: .85; }
+    .quote-submit { background: #fff; color: var(--navy); border: none; padding: .85rem 2rem; border-radius: 8px; font-size: .95rem; font-weight: 800; cursor: pointer; width: 100%; margin-top: .5rem; }
+    .quote-submit:hover { background: #e8ecff; }
+    .quote-success { display: none; text-align: center; padding: 2rem; font-size: 1.1rem; font-weight: 700; }
+
+    /* ── FILE DROP ZONE ──────────────────────────────────────── */
+    .drop-zone { border: 2px dashed rgba(255,255,255,.4); border-radius: 10px; padding: 1.25rem 1rem; text-align: center; cursor: pointer; transition: border-color .15s, background .15s; position: relative; }
+    .drop-zone:hover, .drop-zone.drag-over { border-color: #fff; background: rgba(255,255,255,.07); }
+    .drop-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+    .drop-zone-icon { font-size: 1.6rem; margin-bottom: .35rem; }
+    .drop-zone-label { font-size: .85rem; font-weight: 600; opacity: .9; }
+    .drop-zone-sub { font-size: .75rem; opacity: .55; margin-top: .2rem; }
+    .drop-zone-files { margin-top: .6rem; display: flex; flex-wrap: wrap; gap: .35rem; justify-content: center; }
+    .drop-file-chip { background: rgba(255,255,255,.15); border-radius: 20px; padding: .2rem .7rem; font-size: .75rem; display: flex; align-items: center; gap: .35rem; }
+    .drop-file-chip button { background: none; border: none; color: #fff; cursor: pointer; font-size: .85rem; line-height: 1; opacity: .7; padding: 0; }
+    .drop-file-chip button:hover { opacity: 1; }
+
+    /* ── EXTRA CONTENT ZONE ───────────────────────────────────── */
+    .extra-section { margin-bottom: 3rem; }
+    .extra-section h2 { font-size: 1.25rem; font-weight: 800; color: var(--navy); margin-bottom: 1rem; }
+    .why-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.25rem; }
+    .why-card { background: #fff; border: 1px solid #e8e8e8; border-radius: 12px; padding: 1.25rem; }
+    .why-card .icon { font-size: 1.5rem; margin-bottom: .5rem; }
+    .why-card h3 { font-size: .9rem; font-weight: 700; color: var(--navy); margin: 0 0 .35rem; }
+    .why-card p { font-size: .82rem; color: var(--gray-400); margin: 0; line-height: 1.6; }
+
+    .no-product { text-align: center; padding: 5rem 1rem; color: var(--gray-400); }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <span>📍 Pomona, CA · Serving Southern California</span>
+    <span>·</span>
+    <span>Contractors Welcome · Fast Turnaround</span>
+    <span>·</span>
+    <a href="tel:9099295575">(909) 929-5575</a>
+    <span>·</span>
+    <a href="https://www.instagram.com/supplyanddemandllc/" target="_blank">@supplyanddemandllc</a>
+  </div>
+
+  <!-- HEADER -->
+  <header class="header" id="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <img src="logo.png" alt="Supply and Demand Glass &amp; Doors" class="logo-img" />
+      </a>
+      <nav class="main-nav">
+        <div class="nav-dropdown">
+          <a href="index.html#closet" class="nav-dropdown-toggle">Closet Doors ▾</a>
+          <div class="nav-dropdown-menu">
+            <a href="product?id=closet">Mirrored Closet Doors</a>
+            <a href="product?id=closet-white-glass">White Glass Closet Doors</a>
+            <a href="product?id=closet-frosted">Frosted Glass Closet Doors</a>
+            <a href="product?id=closet-frameless">Frameless Closet Doors</a>
+            <a href="product?id=closet-economy">Economy Closet Doors</a>
+            <a href="product?id=closet-wood">Wood Closet Doors</a>
+            <a href="product?id=closet-bifold">Bifold Closet Doors</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="index.html#shower" class="nav-dropdown-toggle">Shower Doors ▾</a>
+          <div class="nav-dropdown-menu">
+            <a href="product?id=shower">Frameless Shower Doors</a>
+            <a href="product?id=shower-door-in-panel">Door and Panel</a>
+            <a href="product?id=shower-barn">Walk-In Barn Door Single Slider</a>
+            <a href="product?id=shower-barn-tub">Bathtub Barn Door Single Slider</a>
+            <a href="product?id=shower-double">Double Slider</a>
+            <a href="product?id=shower-bypass">Walk-In Framed Bypass</a>
+            <a href="product?id=shower-bypass-tub">Bathtub Framed Bypass</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="index.html#glass" class="nav-dropdown-toggle">Glass ▾</a>
+          <div class="nav-dropdown-menu">
+            <a href="product?id=glass">Tempered Glass</a>
+            <a href="product?id=glass-tabletops">Table Tops</a>
+            <a href="product?id=glass-laminated">Laminated Glass</a>
+            <a href="product?id=glass-colored">Colored Glass</a>
+            <a href="product?id=glass-replacement">Replacement Glass</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="index.html#aluminum" class="nav-dropdown-toggle">Aluminum Windows ▾</a>
+          <div class="nav-dropdown-menu">
+            <a href="product?id=aluminum">Aluminum Windows</a>
+            <a href="product?id=aluminum-bifold-kitchen">Aluminum Bi-Fold Kitchen Window</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="index.html#bifold" class="nav-dropdown-toggle">Aluminum Bifold Doors ▾</a>
+          <div class="nav-dropdown-menu">
+            <a href="product?id=bifold">Aluminum Bifold Doors</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="index.html#mirrors" class="nav-dropdown-toggle">Mirrors ▾</a>
+          <div class="nav-dropdown-menu">
+            <a href="product?id=mirrors">Vanity Mirror</a>
+            <a href="product?id=mirror-vanity-plus">Vanity Mirror Plus</a>
+            <a href="product?id=mirror-gym">Gym Mirrors</a>
+            <a href="product?id=mirror-custom">Custom Mirrors</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="index.html#interior" class="nav-dropdown-toggle">Interior Doors ▾</a>
+          <div class="nav-dropdown-menu">
+            <a href="product?id=interior">Shaker Panels</a>
+          </div>
+        </div>
+        <a href="index.html#contact" class="nav-quote">Get a Quote</a>
+      </nav>
+      <button class="burger" id="burger">&#9776;</button>
+    </div>
+  </header>
+
+  <!-- PRODUCT PAGE CONTENT -->
+  <main class="product-page" id="productPage">
+    <div class="no-product" id="noProduct" style="display:none">
+      <p>Product not found. <a href="index.html">Back to home</a></p>
+    </div>
+  </main>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox">
+    <span class="lb-close" id="lbClose">&#x2715;</span>
+    <button class="lb-prev" id="lbPrev">&#8249;</button>
+    <img id="lbImg" src="" alt="" />
+    <button class="lb-next" id="lbNext">&#8250;</button>
+  </div>
+
+  <script src="products.js?v=2"></script>
+  <script>
+    function getSrc(img) { return typeof img === 'string' ? img : img.src; }
+    function getFinish(img) { return typeof img === 'string' ? null : img.finish; }
+
+    function getShopifyUrl(p, selectedFinish) {
+      if (!p) return null;
+      if (p.shopifyHandles) {
+        const handle = p.shopifyHandles[selectedFinish] || p.shopifyHandles['default'];
+        return handle ? shopifyUrl(handle) : null;
+      }
+      if (p.shopifyHandle) return shopifyUrl(p.shopifyHandle);
+      return null;
+    }
+
+    let allImgs = [];
+    let filteredImgs = [];
+    let activeFinish = null;
+    let lbIdx = 0;
+    let heroIdx = 0;
+
+    const params = new URLSearchParams(window.location.search);
+    const productId = params.get('id') || 'closet';
+    const p = PRODUCTS[productId];
+
+    if (!p) {
+      document.getElementById('noProduct').style.display = 'block';
+    } else {
+      document.title = `${p.name} — Supply & Demand LLC`;
+      renderProductPage(p, productId);
+    }
+
+    function renderProductPage(p, id) {
+      const page = document.getElementById('productPage');
+      const hasImgs = p.images && p.images.length > 0;
+      allImgs = p.images || [];
+      filteredImgs = allImgs.map(getSrc);
+      const heroSrc = filteredImgs[0] || '';
+
+      // breadcrumb
+      const catName = p.tag || 'Products';
+      page.innerHTML = `
+        <div class="breadcrumb">
+          <a href="index.html">Home</a>
+          <span>›</span>
+          <a href="index.html#${id.split('-')[0]}">${catName}</a>
+          <span>›</span>
+          ${p.name}
+        </div>
+
+        <!-- HERO -->
+        <div class="product-hero">
+          <div>
+            <div class="product-hero-img-wrap" id="heroWrap" onclick="openLightbox(heroIdx)">
+              ${heroSrc
+                ? `<img id="heroImg" src="${heroSrc}" alt="${p.name}" />`
+                : `<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:3rem;color:#ccc">🚪</div>`}
+              ${filteredImgs.length > 1 ? `<div class="img-counter" id="heroCounter">1 / ${filteredImgs.length}</div>` : ''}
+            </div>
+            <div class="hero-thumbs" id="heroThumbs"></div>
+          </div>
+
+          <div class="product-hero-info">
+            <div class="product-hero-tag">${p.tag}</div>
+            <h1 class="product-hero-name">${p.name}</h1>
+            <p class="product-hero-desc">${p.desc}</p>
+
+            ${p.finishes && p.finishes.length ? `
+            <div class="product-hero-finishes">
+              <h4>Finish / Color</h4>
+              <div class="finish-chips" id="finishChips">
+                ${p.finishes.map(f => `<span class="fchip" onclick="filterByFinish('${f}', this)">${f}</span>`).join('')}
+              </div>
+            </div>` : ''}
+
+            ${p.widths && p.widths.length ? `
+            <div class="product-hero-sizes">
+              <h4>Available Widths</h4>
+              <div class="size-chips">
+                ${p.widths.map(w => `<span class="schip" onclick="selectSize(this,'width','${w}')">${w}</span>`).join('')}
+                <input class="custom-size-input" id="customWidth" type="text" placeholder='Custom"' oninput="setCustomSize('width',this.value)" />
+              </div>
+            </div>` : ''}
+
+            ${p.heights && p.heights.length ? `
+            <div class="product-hero-sizes">
+              <h4>Available Heights</h4>
+              <div class="size-chips">
+                ${p.heights.map(h => `<span class="schip" onclick="selectSize(this,'height','${h}')">${h}</span>`).join('')}
+                <input class="custom-size-input" id="customHeight" type="text" placeholder='Custom"' oninput="setCustomSize('height',this.value)" />
+              </div>
+            </div>` : ''}
+
+            <div class="product-cta">
+              ${getShopifyUrl(p) ? `<a href="${getShopifyUrl(p)}" target="_blank" class="btn-primary" id="shopifyOrderBtn">Order Now — Pay on Shopify</a>` : `<a href="tel:9099295575" class="btn-primary">Call (909) 929-5575</a>`}
+              <a href="#quoteForm" class="btn-outline">Request a Quote</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- GALLERY -->
+        ${hasImgs ? `
+        <div class="gallery-section">
+          <h2>Photo Gallery</h2>
+          <div class="gallery-grid" id="galleryGrid"></div>
+        </div>` : ''}
+
+        <!-- DETAILS -->
+        <div class="details-section">
+          <h2>Product Details</h2>
+          <div class="details-grid">
+            ${p.finishes ? `<div class="detail-item"><label>Available Finishes</label><p>${p.finishes.join(', ')}</p></div>` : ''}
+            ${p.widths ? `<div class="detail-item"><label>Standard Widths</label><p>${p.widths.join(', ')}</p></div>` : ''}
+            ${p.heights ? `<div class="detail-item"><label>Standard Heights</label><p>${p.heights.join(', ')}</p></div>` : ''}
+            ${p.custom ? `<div class="detail-item"><label>Custom Sizing</label><p>Yes — we cut to your exact measurements</p></div>` : ''}
+            <div class="detail-item"><label>Location</label><p>Pomona, CA · Serving all of Southern California · Walk-ins welcome</p></div>
+            <div class="detail-item"><label>Turnaround</label><p>Fast turnaround · Local delivery & drop-off available · Contractors welcome</p></div>
+          </div>
+        </div>
+
+        <!-- QUOTE FORM -->
+        <div class="quote-section" id="quoteForm">
+          <h2>Request a Free Quote</h2>
+          <p>Tell us what you need and we'll get back to you fast.</p>
+          <form class="quote-form" id="qForm" onsubmit="submitQuote(event)">
+            <div>
+              <label>Your Name *</label>
+              <input type="text" name="name" placeholder="John Smith" required />
+            </div>
+            <div>
+              <label>Phone *</label>
+              <input type="tel" name="phone" placeholder="(909) 000-0000" required />
+            </div>
+            <div>
+              <label>Email</label>
+              <input type="email" name="email" placeholder="your@email.com" />
+            </div>
+            <div>
+              <label>Finish / Color</label>
+              <select name="finish">
+                <option value="">-- Select --</option>
+                ${(p.finishes || []).map(f => `<option value="${f}">${f}</option>`).join('')}
+              </select>
+            </div>
+            <div>
+              <label>Width Needed</label>
+              <input type="text" name="width" id="quoteWidth" placeholder='e.g. 60" or custom' />
+            </div>
+            <div>
+              <label>Height Needed</label>
+              <input type="text" name="height" placeholder='e.g. 80" or custom' />
+            </div>
+            <div>
+              <label>Quantity</label>
+              <input type="number" name="qty" placeholder="1" min="1" value="1" />
+            </div>
+            <div class="full">
+              <label>Additional Notes</label>
+              <textarea name="notes" placeholder="Any details about your project, measurements, or questions..."></textarea>
+            </div>
+            <div class="full">
+              <label>Attach Plans, Sketches, or Inspiration Photos</label>
+              <div class="drop-zone" id="dropZone">
+                <input type="file" id="fileInput" multiple accept="image/*,.pdf,.heic,.heif" onchange="handleFiles(this.files)" />
+                <div class="drop-zone-icon">📎</div>
+                <div class="drop-zone-label">Drop files here or click to browse</div>
+                <div class="drop-zone-sub">Photos, blueprints, PDFs, sketches — any format welcome</div>
+                <div class="drop-zone-files" id="fileList"></div>
+              </div>
+            </div>
+            <div class="full">
+              <input type="hidden" name="product" value="${p.name}" />
+              <button type="submit" class="quote-submit">Send Quote Request</button>
+            </div>
+          </form>
+          <div class="quote-success" id="quoteSuccess">
+            ✅ Thanks! We'll reach out shortly. Or call us now at <a href="tel:9099295575" style="color:#fff">(909) 929-5575</a>
+          </div>
+        </div>
+
+        <!-- WHY US -->
+        <div class="extra-section">
+          <h2>Why Supply &amp; Demand?</h2>
+          <div class="why-grid">
+            <div class="why-card"><div class="icon">📍</div><h3>Local — Pomona, CA</h3><p>We're based in the Inland Empire and serve all of Southern California. Fast local delivery and installation.</p></div>
+            <div class="why-card"><div class="icon">⚡</div><h3>Fast Turnaround</h3><p>Most orders ready quickly. We keep popular sizes in stock and cut custom sizes in-house.</p></div>
+            <div class="why-card"><div class="icon">🔨</div><h3>Contractors Welcome</h3><p>Volume pricing available. We work with builders, remodelers, and property managers throughout SoCal.</p></div>
+            <div class="why-card"><div class="icon">📐</div><h3>Custom Sizing</h3><p>Non-standard openings? No problem. We fabricate to your exact specs.</p></div>
+          </div>
+        </div>
+      `;
+
+      heroIdx = 0;
+      renderHeroThumbs();
+      renderGallery();
+    }
+
+    function renderHeroThumbs() {
+      const wrap = document.getElementById('heroThumbs');
+      if (!wrap) return;
+      if (filteredImgs.length <= 1) { wrap.innerHTML = ''; return; }
+      wrap.innerHTML = filteredImgs.map((src, i) =>
+        `<div class="hthumb${i === heroIdx ? ' active' : ''}" onclick="setHeroImg(${i})">
+          <img src="${src}" alt="Preview ${i+1}" loading="lazy" />
+        </div>`
+      ).join('');
+    }
+
+    function setHeroImg(i) {
+      heroIdx = i;
+      const heroImg = document.getElementById('heroImg');
+      const heroCounter = document.getElementById('heroCounter');
+      if (heroImg) heroImg.src = filteredImgs[i];
+      if (heroCounter) heroCounter.textContent = `${i + 1} / ${filteredImgs.length}`;
+      document.querySelectorAll('#heroThumbs .hthumb').forEach((t, idx) =>
+        t.classList.toggle('active', idx === i)
+      );
+    }
+
+    function renderGallery() {
+      const grid = document.getElementById('galleryGrid');
+      if (!grid) return;
+      if (!activeFinish) {
+        grid.innerHTML = `<p class="gallery-empty" style="color:var(--gray-400);font-size:.9rem;padding:.5rem 0">← Select a finish above to see photos.</p>`;
+        return;
+      }
+      if (filteredImgs.length === 0) {
+        grid.innerHTML = `<p class="gallery-empty">No photos yet for this finish — more coming soon.</p>`;
+        return;
+      }
+      grid.innerHTML = filteredImgs.map((src, i) =>
+        `<div class="gallery-thumb" onclick="openLightbox(${i})"><img src="${src}" alt="Photo ${i+1}" loading="lazy" /></div>`
+      ).join('');
+    }
+
+    function filterByFinish(finish, el) {
+      const wasActive = activeFinish === finish;
+      document.querySelectorAll('#finishChips .fchip').forEach(c => c.classList.remove('active'));
+      if (wasActive) {
+        activeFinish = null;
+        filteredImgs = allImgs.map(getSrc);
+      } else {
+        el.classList.add('active');
+        activeFinish = finish;
+        filteredImgs = allImgs.filter(img => !getFinish(img) || getFinish(img) === finish).map(getSrc);
+      }
+      // update hero
+      heroIdx = 0;
+      const heroImg = document.getElementById('heroImg');
+      const heroCounter = document.getElementById('heroCounter');
+      if (heroImg && filteredImgs.length) { heroImg.src = filteredImgs[0]; }
+      if (heroCounter) heroCounter.textContent = `1 / ${filteredImgs.length}`;
+      renderHeroThumbs();
+      renderGallery();
+      // Update Shopify order button URL when finish changes
+      const btn = document.getElementById('shopifyOrderBtn');
+      if (btn) {
+        const url = getShopifyUrl(p, activeFinish);
+        if (url) btn.href = url;
+      }
+    }
+
+    function galleryFilter(finish, el) {
+      document.querySelectorAll('#galleryFilter .fchip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      if (finish === null) {
+        filteredImgs = allImgs.map(getSrc);
+      } else {
+        filteredImgs = allImgs.filter(img => !getFinish(img) || getFinish(img) === finish).map(getSrc);
+      }
+      renderGallery();
+      // Update Shopify order button URL when finish changes
+      const btn = document.getElementById('shopifyOrderBtn');
+      if (btn) {
+        const url = getShopifyUrl(p, finish);
+        if (url) btn.href = url;
+      }
+    }
+
+    // Size selection — chips + custom input wired to quote form
+    function selectSize(el, type, val) {
+      const group = el.closest('.size-chips');
+      group.querySelectorAll('.schip').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+      const customInput = group.querySelector('.custom-size-input');
+      if (customInput) customInput.value = '';
+      if (type === 'width') { const f = document.getElementById('quoteWidth'); if (f) f.value = val; }
+      if (type === 'height') { const f = document.querySelector('[name="height"]'); if (f) f.value = val; }
+    }
+    function setCustomSize(type, val) {
+      if (type === 'width') {
+        document.querySelectorAll('#customWidth').forEach(() => {});
+        const group = document.getElementById('customWidth')?.closest('.size-chips');
+        if (group) group.querySelectorAll('.schip').forEach(c => c.classList.remove('selected'));
+        const f = document.getElementById('quoteWidth'); if (f) f.value = val;
+      }
+      if (type === 'height') {
+        const group = document.getElementById('customHeight')?.closest('.size-chips');
+        if (group) group.querySelectorAll('.schip').forEach(c => c.classList.remove('selected'));
+        const f = document.querySelector('[name="height"]'); if (f) f.value = val;
+      }
+    }
+
+    // Lightbox
+    function openLightbox(idx) {
+      if (!filteredImgs.length) return;
+      lbIdx = idx;
+      document.getElementById('lbImg').src = filteredImgs[lbIdx];
+      document.getElementById('lightbox').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('lbClose').onclick = closeLightbox;
+    document.getElementById('lightbox').onclick = e => { if (e.target === document.getElementById('lightbox')) closeLightbox(); };
+    document.getElementById('lbPrev').onclick = e => { e.stopPropagation(); lbIdx = (lbIdx - 1 + filteredImgs.length) % filteredImgs.length; document.getElementById('lbImg').src = filteredImgs[lbIdx]; };
+    document.getElementById('lbNext').onclick = e => { e.stopPropagation(); lbIdx = (lbIdx + 1) % filteredImgs.length; document.getElementById('lbImg').src = filteredImgs[lbIdx]; };
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); if (e.key === 'ArrowLeft') document.getElementById('lbPrev').click(); if (e.key === 'ArrowRight') document.getElementById('lbNext').click(); });
+
+    // File drop zone
+    let attachedFiles = [];
+    document.addEventListener('dragover', e => {
+      const dz = document.getElementById('dropZone');
+      if (dz && dz.contains(e.target)) { e.preventDefault(); dz.classList.add('drag-over'); }
+    });
+    document.addEventListener('dragleave', e => {
+      const dz = document.getElementById('dropZone');
+      if (dz && !dz.contains(e.relatedTarget)) dz.classList.remove('drag-over');
+    });
+    document.addEventListener('drop', e => {
+      const dz = document.getElementById('dropZone');
+      if (dz && dz.contains(e.target)) {
+        e.preventDefault();
+        dz.classList.remove('drag-over');
+        handleFiles(e.dataTransfer.files);
+      }
+    });
+    function handleFiles(files) {
+      Array.from(files).forEach(f => {
+        if (!attachedFiles.find(x => x.name === f.name && x.size === f.size)) attachedFiles.push(f);
+      });
+      renderFileList();
+    }
+    function removeFile(name) {
+      attachedFiles = attachedFiles.filter(f => f.name !== name);
+      renderFileList();
+    }
+    function renderFileList() {
+      const list = document.getElementById('fileList');
+      if (!list) return;
+      list.innerHTML = attachedFiles.map(f =>
+        `<div class="drop-file-chip">📄 ${f.name} <button type="button" onclick="removeFile('${f.name}')" title="Remove">✕</button></div>`
+      ).join('');
+    }
+
+    // Quote form
+    function submitQuote(e) {
+      e.preventDefault();
+      document.getElementById('qForm').style.display = 'none';
+      document.getElementById('quoteSuccess').style.display = 'block';
+    }
+
+    // Burger
+    const burger = document.getElementById('burger');
+    if (burger) burger.addEventListener('click', () => document.querySelector('.mobile-nav') && document.querySelector('.mobile-nav').classList.toggle('open'));
+  </script>
+</body>
+</html>
